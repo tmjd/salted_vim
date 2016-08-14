@@ -1,0 +1,133 @@
+
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+"Plugin 'tpope/vim-fugitive'
+Plugin '4Evergreen4/vim-hardy'
+Plugin 'fatih/vim-go'
+Plugin 'majutsushi/tagbar'
+" plugin from http://vim-scripts.org/vim/scripts.html
+Plugin 'L9'
+Plugin 'git://github.com/scrooloose/nerdtree.git'
+" Git plugin not hosted on GitHub
+"Plugin 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (i.e. when working on your own plugin)
+"Plugin 'file:///home/gmarik/path/to/plugin'
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+"Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Avoid a name conflict with L9
+"Plugin 'user/L9', {'name': 'newL9'}
+Plugin 'project.tar.gz'
+Plugin 'derekwyatt/vim-scala'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set hlsearch
+
+colorscheme koehler
+set autoindent
+
+nmap <F8> :TagbarToggle<CR>
+map <C-n> :NERDTreeToggle<CR>
+
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+
+map <F6> :echo expand('%:p')<CR>
+
+"nnoremap ; :
+
+"folding settings
+set foldmethod=indent   "fold based on indent
+set foldnestmax=10      "deepest fold is 10 levels
+set nofoldenable        "don't fold by default
+set foldlevel=1
+
+let g:proj_flags='imstg'
+
+noremap <F5> :buffers<CR>:b<Space>
+
+autocmd FileType make set noexpandtab
+autocmd FileType python setl shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType yaml setl shiftwidth=2 tabstop=2 softtabstop=2
+
+augroup vagrant
+    au!
+    au BufRead,BufNewFile Vagrantfile set filetype=ruby
+augroup END
+
+"if exists('+colorcolumn')
+"   set colorcolumn=80
+"else
+   au BufWinEnter *.c,*.cpp,*.cxx,*.h,*.hh,*.sh let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+"endif
+
+func! DeleteTrailingWS()
+   exe "normal mz"
+   %s/\s\+$//ge
+   exe "normal `z"
+endfunc
+
+noremap <leader>w :call DeleteTrailingWS()<CR>
+
+autocmd FileType c,cpp,cxx,h,hh,java,php,sh,yml,jinja autocmd BufWritePre <buffer> :call DeleteTrailingWS()
+
+let g:tagbar_type_go = {  
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+\ }
