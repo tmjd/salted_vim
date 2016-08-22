@@ -7,6 +7,10 @@ vim:
 vim-syntastic:
   pkg.installed
 
+# Required to pull down the vim Plugins
+git:
+  pkg.installed
+
 vim_dir:
   file.directory:
     - name: /home/{{username}}/.vim
@@ -48,4 +52,3 @@ vundle:
     - group: {{username}}
     - require:
       - file: vim_bundle_dir
-
