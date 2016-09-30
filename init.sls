@@ -7,6 +7,30 @@ vim:
 vim-syntastic:
   pkg.installed
 
+# Required to pull down the vim Plugins
+git:
+  pkg.installed
+
+vim_dir:
+  file.directory:
+    - name: /home/{{username}}/.vim
+    - dir_mode: 0755
+    - file_mode: 0644
+    - user: {{username}}
+    - group: {{username}}
+    - require:
+      - user: user_{{username}}
+
+vim_bundle_dir:
+  file.directory:
+    - name: /home/{{username}}/.vim/bundle/
+    - dir_mode: 0755
+    - file_mode: 0644
+    - user: {{username}}
+    - group: {{username}}
+    - require:
+      - file: vim_dir
+
 vim_config:
   file.managed:
     - name: /home/{{username}}/.vimrc
@@ -14,14 +38,9 @@ vim_config:
     - group: {{username}}
     - source: salt://vim/vimrc.template
     - template: jinja
-
-vim_dir:
-  file.directory:
-    - name: /home/{{username}}/.vim/bundle/
-    - dir_mode: 0755
-    - file_mode: 0644
-    - user: {{username}}
-    - group: {{username}}
+    - require:
+      - file: vim_dir
+      - user: user_{{username}}
 
 vundle:
   file.recurse:
@@ -31,4 +50,5 @@ vundle:
     - file_mode: 0644
     - user: {{username}}
     - group: {{username}}
-
+    - require:
+      - file: vim_bundle_dir
