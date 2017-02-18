@@ -88,6 +88,7 @@ noremap <F5> :buffers<CR>:b<Space>
 autocmd FileType make set noexpandtab
 autocmd FileType python setl shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType yaml setl shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType go setl expandtab shiftwidth=4 tabstop=4 softtabstop=4
 
 augroup vagrant
     au!
@@ -108,7 +109,10 @@ endfunc
 
 noremap <leader>w :call DeleteTrailingWS()<CR>
 
-autocmd FileType c,cpp,cxx,h,hh,java,php,sh,yml,jinja autocmd BufWritePre <buffer> :call DeleteTrailingWS()
+autocmd FileType c,cpp,cxx,h,hh,go,java,php,sh,yml,jinja autocmd BufWritePre <buffer> :call DeleteTrailingWS()
+
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
 let g:tagbar_type_go = {  
     \ 'ctagstype' : 'go',
