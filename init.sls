@@ -19,7 +19,7 @@ vim_dir:
     - user: {{username}}
     - group: {{username}}
     - require:
-      - user: user_{{username}}
+      - user: {{username}}
 
 vim_bundle_dir:
   file.directory:
@@ -40,7 +40,7 @@ vim_config:
     - template: jinja
     - require:
       - file: vim_dir
-      - user: user_{{username}}
+      - user: {{username}}
 
 vundle:
   file.recurse:
